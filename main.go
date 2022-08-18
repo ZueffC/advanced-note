@@ -16,7 +16,10 @@ func main() {
 	app.HandleDir("/static", iris.Dir("./static"))
 
 	app.Get("/", controllers.IndexController)
-	app.Post("/add-link", controllers.AddLinkController)
+	app.Get("/get/{type}/{id}", controllers.GetController)
+
+	app.Post("/edit/{type}", controllers.EditController)
+	app.Post("/add/{type}", controllers.AddController)
 
 	app.Listen(":49494")
 }

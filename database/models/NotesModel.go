@@ -4,5 +4,6 @@ import "gorm.io/gorm"
 
 type Notes struct {
 	gorm.Model
-	Text string
+	Title string
+	Text  string
 }

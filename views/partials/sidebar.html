@@ -3,7 +3,7 @@
 
     <div class="sidebar-menu">
         <div class="sidebar-content">
-            <input type="text" class="form-control" placeholder="Search">
+            <input type="text" class="form-control" id="search" placeholder="Search">
             <div class="mt-10 font-size-12">
                 Press <kbd>/</kbd> to focus
             </div>
@@ -36,4 +36,24 @@
 
 <script>
     //if(window.innerWidth < 770) halfmoon.toggleSidebar() // its already in halfmoon
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // Getting the repository search input
+    var searchRepoInputElem = document.querySelector("#search");
+
+    // Handle keydown events (overridden)
+    halfmoon.keydownHandler = function(event) {
+      event = event || window.event;
+      // Shortcuts are triggered only if no input, textarea, or select has focus
+      if (!(document.querySelector("input:focus") || document.querySelector("textarea:focus") || document.querySelector("select:focus"))) {
+        // Focus the repository search input when [/] is pressed
+        if (event.which == 191) {
+          searchRepoInputElem.focus();
+          event.preventDefault();
+        }
+      }
+      // You can handle other keydown events here using if or else-if statements
+    }
+  });
+
 </script>

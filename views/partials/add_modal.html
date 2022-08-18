@@ -11,7 +11,7 @@
       </p>
       <div class="text-centered d-flex justify-content-center">
         <a href="#" class="btn btn-primary mr-10" role="button">Tab!</a>
-        <a href="#" class="btn btn-primary mr-10" role="button">Note!</a>
+        <a href="#modal-note" class="btn btn-primary mr-10" role="button">Note!</a>
         <a href="#modal-link" class="btn btn-primary mr-10" role="button">Link!</a>
       </div>
     </div>
@@ -36,9 +36,10 @@
 
         <div class="form-group">
           <label for="password" class="required">And link</label>
-          <input type="text" id="url" class="form-control" placeholder="https://youreclever.heh" required="required">
+          <input type="url" pattern="https://.*" id="url" class="form-control" placeholder="https://youreclever.heh" required="required">
         </div>
-        <button class="btn btn-primary btn-block" onclick="sendLink()">Add Link</button>
+
+        <a href="/" role="button" class="btn btn-primary btn-block" onclick="addLink()">Add Link</a>
       </form>
 
       </div>
@@ -47,16 +48,121 @@
 </div>
 <!-- link modal end  -->
 
-<script>
-  window.post = function(url, data) {
+<!-- note modal start -->
+<div class="modal" id="modal-note" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a href="#" class="btn close" role="button" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </a>
+      <h5 class="modal-title">Create new note:</h5>
+
+      <form>
+        <div class="form-group">
+          <label for="title" class="required">Its ttl:</label>
+          <input type="text" id="title" class="form-control" placeholder="JUST ADD THIS OLD SOVIET..." required="required">
+        </div>
+
+        <div class="form-group">
+          <label for="text" class="required">And body</label>
+          <textarea id="text-note" class="form-control" placeholder="Regular textarea for multi-line input"></textarea>
+        </div>
+
+        <a href="/" role="button" class="btn btn-primary btn-block" onclick="addNote()">Add note</a>
+      </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- note modal end  -->
+
+
+<!-- link edit modal start -->
+<div class="modal" id="modal-edit-link" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a href="#" class="btn close" role="button" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </a>
+      <h5 class="modal-title">Yo can edit link:</h5>
+        
+        <form>
+          <div class="form-group">
+            <label for="password" class="required">Edit name:</label>
+            <input type="text" id="edit-name" class="form-control" placeholder="gl hf" required="required">
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="required">Edit link:</label>
+            <input type="url" pattern="https://.*" id="edit-url" class="form-control" placeholder="https://youreclever.heh" required="required">
+          </div>
+
+          <a href="/" role="button" class="btn btn-primary btn-block" onclick="saveEditedLink(0)">Save changes</a>
+          <a href="/" style="margin-top: 10px" role="button" class="btn btn-danger btn-block" onclick="saveEditedLink(1)">Delete</a>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- edit modal end  -->
+
+<script async>
+  window.linkId = 0;
+
+  function post(url, data) {
     return fetch(url, {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)});
   }
 
-  function sendLink() {
+  async function get(url) {
+    let response = await fetch(url);
+    let data = await response.json();
+
+    return (data);
+  }
+
+
+  async function addLink() {
     let name = document.querySelector("#name").value;
     let url = document.querySelector("#url").value;
 
-    let data = {name: name, url: url};
-    post("/add-link", data);
+    if(name.length > 3 && url.length > 3) {
+      let data = {name: name, url: url};
+      post("/add/link", data);
+    }
+  }
+
+  async function addNote() {
+    let title = document.querySelector("#title").value;
+    let text = document.querySelector("#text-note").value;
+    let data = {title: title, text: text};
+
+    post("/add/note", data);
+  }
+
+
+  async function openLinkEditModal(id) {
+    let result = await get(`/get/link/${id}`);
+    
+    document.querySelector("#edit-name").value = result?.data?.Name;
+    document.querySelector("#edit-url").value = result?.data?.Url;
+
+    window.linkId += result?.data?.ID;
+    halfmoon.toggleModal("modal-edit-link");
+  }
+
+  async function saveEditedLink(wannaDelete) {
+    let name = document.querySelector("#edit-name").value;
+    let url = document.querySelector("#edit-url").value;
+
+    let data = {
+      id: window.linkId,
+      delete: wannaDelete,
+      name: name, 
+      url: url,
+    };
+
+    post(`/edit/link`, data);
   }
 </script>

@@ -10,9 +10,24 @@
 
 <style>
 	.splide__slide {
-		padding: 90px;
+		padding: 70px;
 		text-align: center;
+        margin-right: 10px;
 	}
+
+    .splide__pagination.splide__pagination--ltr {
+        margin-top: 110px;
+        top: 40px;
+        position: absolute;
+    }
+
+    .container-fluid {
+        padding: 10px;
+    }
+
+    .notes {
+        margin-bottom: 10px !important;
+    }
 </style>
 
 {{ render "partials/header.html" }}
@@ -31,17 +46,30 @@
                     <div class="fake-content"></div>
                 </div>
 
-				<section class="splide" aria-labelledby="carousel-heading">
-				  <div class="splide__track">
-						<ul class="splide__list">
-							{{#each links}}
-								<li class="splide__slide">
-							   		<a href="{{this.url}}">{{this.name}}</a> 
-							    </li>
-							{{/each}}
-						</ul>
-				  </div>
-				</section>
+                {{#if links}}
+    				<section class="splide" aria-labelledby="carousel-heading">
+    				  <div class="splide__track">
+    						<ul class="splide__list">
+    							{{#each links}}
+    								<li class="splide__slide card">
+                                        <img src="{{this.url}}/../../../favicon.ico" height="24" alt="">
+    							   		<a href="{{this.url}}">{{this.name}}</a> 
+                                        <br/>
+                                        <a class="" onclick="openLinkEditModal( {{this.ID}} )">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </a>
+    							    </li>
+    							{{/each}}
+    						</ul>
+    				  </div>
+    				</section>
+                 {{else}}
+                    <div class="card">
+                        <center>
+                            <p>There`s nothin...</p>
+                        </center>
+                    </div>
+                {{/if}}
 
                 <div class="content">
                     <div class="fake-content"></div>
@@ -53,7 +81,13 @@
                     <h2 class="content-title font-size-20">
                         Notes:
                     </h2>
-                    <div class="card" style="margin: 0;"></div>
+
+                    {{#each notes}}
+                        <div class="card notes" style="margin: 0; padding: 10px">
+                            <small> <kbd> {{this.title}}</kbd>  <i class="fa fa-pencil-square-o" aria-hidden="true"></i></small>
+                            <p class="text-wrap text-break">{{this.text}}</p>
+                        </div>
+                    {{/each}}
                 </div>
             </div>
         </div>
