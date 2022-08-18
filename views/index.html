@@ -1,0 +1,92 @@
+<link rel="stylesheet" href="/static/css/halfmoon.min.css">
+<link rel="stylesheet" href="/static/css/font-awesome.min.css">
+<link rel="stylesheet" href="/static/css/splide.min.css">
+
+<script src="/static/js/halfmoon.min.js"></script>
+<script src="/static/js/splide.min.js"></script>
+
+<!-- Sidebar overlay -->
+<div class="sidebar-overlay" onclick="halfmoon.toggleSidebar()"></div>
+
+<style>
+	.splide__slide {
+		padding: 90px;
+		text-align: center;
+	}
+</style>
+
+{{ render "partials/header.html" }}
+{{ render "partials/sidebar.html" }}
+
+<!-- Content wrapper start -->
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <div class="row row-eq-spacing-lg">
+            <div class="col-lg-9">
+                <div class="content">
+                    <h1 class="content-title">
+                        Added Links:
+                    </h1>
+                    <div class="fake-content"></div>
+                    <div class="fake-content"></div>
+                </div>
+
+				<section class="splide" aria-labelledby="carousel-heading">
+				  <div class="splide__track">
+						<ul class="splide__list">
+							{{#each links}}
+								<li class="splide__slide">
+							   		<a href="{{this.url}}">{{this.name}}</a> 
+							    </li>
+							{{/each}}
+						</ul>
+				  </div>
+				</section>
+
+                <div class="content">
+                    <div class="fake-content"></div>
+                    <div class="fake-content w-150"></div>
+                </div>
+            </div>
+            <div class="col-lg-3 d-none d-lg-block">
+                <div class="content">
+                    <h2 class="content-title font-size-20">
+                        Notes:
+                    </h2>
+                    <div class="card" style="margin: 0;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Content wrapper end -->
+
+<!-- Navbar fixed bottom start 
+<nav class="navbar navbar-fixed-bottom">
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="fa fa-question-circle-o mr-5" aria-hidden="true"></i>
+                Help
+            </a>
+        </li>
+    </ul>
+    <span class="navbar-text">
+        &copy; Copyright 2022, Brand
+    </span>
+</nav>
+ Navbar fixed bottom end -->
+
+{{ render "partials/add_modal.html" }}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+	var splide = new Splide('.splide', {
+	  type     : 'loop',
+	  height   : '10rem',
+	  autoWidth: true,
+	});
+
+	splide.mount();
+  });
+</script>

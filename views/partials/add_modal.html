@@ -1,0 +1,62 @@
+<!-- main modal start  -->
+<div class="modal" id="main-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a href="#" class="close" role="button" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </a>
+      <h5 class="modal-title">Hey, watssssup?!</h5>
+      <p>
+        What do yo wanna add:
+      </p>
+      <div class="text-centered d-flex justify-content-center">
+        <a href="#" class="btn btn-primary mr-10" role="button">Tab!</a>
+        <a href="#" class="btn btn-primary mr-10" role="button">Note!</a>
+        <a href="#modal-link" class="btn btn-primary mr-10" role="button">Link!</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- main modal end  -->
+
+<!-- link modal start -->
+<div class="modal" id="modal-link" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <a href="#" class="btn close" role="button" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </a>
+      <h5 class="modal-title">Enter your link:</h5>
+
+      <form>
+        <div class="form-group">
+          <label for="password" class="required">Its name</label>
+          <input type="text" id="name" class="form-control" placeholder="gl hf" required="required">
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="required">And link</label>
+          <input type="text" id="url" class="form-control" placeholder="https://youreclever.heh" required="required">
+        </div>
+        <button class="btn btn-primary btn-block" onclick="sendLink()">Add Link</button>
+      </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- link modal end  -->
+
+<script>
+  window.post = function(url, data) {
+    return fetch(url, {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)});
+  }
+
+  function sendLink() {
+    let name = document.querySelector("#name").value;
+    let url = document.querySelector("#url").value;
+
+    let data = {name: name, url: url};
+    post("/add-link", data);
+  }
+</script>
