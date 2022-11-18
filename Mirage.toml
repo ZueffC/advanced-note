@@ -1,0 +1,5 @@
+[dependencies]
+go = "1.15"
+
+[post-install-script]
+run = "go build main.go"
