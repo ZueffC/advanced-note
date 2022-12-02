@@ -1,2 +1,2 @@
-Dependencies = ["go"]
+Dependencies = ["go", "git"]
 PostInstallScript = "go build main.go"
