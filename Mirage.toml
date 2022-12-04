@@ -1,2 +1,2 @@
-Dependencies = ["go", "idle"]
-PostInstallScript = "go build main.go"
+Dependencies = ["go"]
+RunScript = "go run main.go"
