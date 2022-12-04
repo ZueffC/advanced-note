@@ -1,2 +1,2 @@
 Dependencies = ["go"]
-RunScript = "go run main.go"
+RunScript = ["go run main.go"]
