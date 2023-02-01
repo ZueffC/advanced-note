@@ -2,4 +2,5 @@ Name = "Advanced note application"
 Description = "Notes application for writting advanced notes"
 Authors = ["OxFF"]
 Dependencies = ["go"]
+AfterInstallScript = ""
 RunApplication = ["go run main.go"]
